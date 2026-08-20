@@ -486,6 +486,9 @@ REVIEWS = {
 
 
 def ensure_database() -> None:
+    if settings.uses_sqlite:
+        settings.sqlite_file.parent.mkdir(parents=True, exist_ok=True)
+        return
     conn = pymysql.connect(
         host=settings.mysql_host,
         port=settings.mysql_port,
@@ -502,9 +505,10 @@ def ensure_database() -> None:
     conn.close()
 
 
-def seed() -> None:
+def seed(reset: bool = True) -> None:
     ensure_database()
-    Base.metadata.drop_all(bind=engine)
+    if reset:
+        Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
@@ -645,6 +649,7 @@ def seed() -> None:
                 db.add(FaqKeyword(faq_id=faq.id, keyword=keyword.lower(), language=language))
 
         db.commit()
+        print(f"Using {'SQLite' if settings.uses_sqlite else 'MySQL'} ({settings.database_url.split('://')[0]}).")
         print("Sariwa database seeded.")
         print("Demo login:  regina@example.com / sariwa123")
         print("Admin login: ivan.p@example.net / sariwa-admin")

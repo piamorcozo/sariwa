@@ -1,6 +1,9 @@
 .DS_Store
 backend/.venv/
 backend/.env
+backend/*.sqlite3
+backend/*.db
+backend/scripts/token
 **/__pycache__/
 *.pyc
 frontend/node_modules/
