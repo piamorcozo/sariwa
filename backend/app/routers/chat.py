@@ -4,7 +4,7 @@ import re
 from collections import defaultdict
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import func, literal, or_
+from sqlalchemy import literal, or_
 from sqlalchemy.orm import Session, joinedload
 
 from ..database import get_db
@@ -188,7 +188,8 @@ def ask(payload: ChatAskIn, db: Session = Depends(get_db)):
             language = "tl" if preferred == "tl" or safe.startswith("k") else "en"
             return _pack(faq, language)
 
-    like_filters = [literal(safe).like(func.concat("%", FaqKeyword.keyword, "%"))]
+    # Contains/LIKE must be dialect-agnostic: MySQL CONCAT() is not available on SQLite.
+    like_filters = [literal(safe).contains(FaqKeyword.keyword)]
     for token in tokens:
         like_filters.append(FaqKeyword.keyword.like(f"%{token}%"))
 
