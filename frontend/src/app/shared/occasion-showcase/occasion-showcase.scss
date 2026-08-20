@@ -1,0 +1,275 @@
+:host {
+  display: block;
+}
+
+.showcase {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 44px;
+  transition: background 0.8s ease;
+  --enter: 90px;
+  --exit: -90px;
+}
+
+.showcase.back {
+  --enter: -90px;
+  --exit: 90px;
+}
+
+.showcase-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 6;
+}
+
+.showcase-head .eyebrow {
+  color: rgba(44, 58, 43, 0.55);
+}
+
+.caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  transition: color 0.6s ease;
+}
+
+.stage {
+  position: relative;
+  height: 520px;
+  margin-top: 8px;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  pointer-events: none;
+}
+
+.layer.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.layer.is-leaving {
+  opacity: 0;
+}
+
+.word,
+.petal,
+.bouquet {
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
+}
+
+.word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  white-space: nowrap;
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: min(12vw, 146px);
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em; // offsets the trailing letter-space so the word stays centred
+  transform: translate(-50%, -50%);
+  user-select: none;
+}
+
+.petal {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.petal.front {
+  z-index: 4;
+}
+
+.petal-float {
+  display: block;
+  animation: petal-drift var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
+  transform: rotate(var(--rot, 0deg));
+  will-change: transform;
+}
+
+.petal img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 12px 18px rgba(44, 58, 43, 0.16));
+}
+
+@keyframes petal-drift {
+  0%,
+  100% {
+    transform: rotate(var(--rot, 0deg)) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotate(calc(var(--rot, 0deg) + var(--spin, 10deg))) translate3d(var(--dx, 10px), var(--dy, -12px), 0);
+  }
+}
+
+.bouquet {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  z-index: 3;
+  height: 440px;
+  transform: translate(-50%, -50%);
+}
+
+.bouquet img {
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 26px 34px rgba(44, 58, 43, 0.26));
+}
+
+.layer:not(.is-active) .word {
+  transform: translate(-50%, -50%) translateX(var(--enter)) scale(1.08);
+  filter: blur(18px);
+}
+
+.layer:not(.is-active) .bouquet {
+  transform: translate(-50%, -50%) translateX(var(--enter)) scale(0.88);
+  filter: blur(14px);
+}
+
+.layer:not(.is-active) .petal {
+  transform: translate(-50%, -50%) translateX(calc(var(--enter) * 1.4)) scale(1.25);
+}
+
+.layer.is-leaving .word {
+  transform: translate(-50%, -50%) translateX(var(--exit)) scale(1.08);
+}
+
+.layer.is-leaving .bouquet {
+  transform: translate(-50%, -50%) translateX(var(--exit)) scale(0.88);
+}
+
+.layer.is-leaving .petal {
+  transform: translate(-50%, -50%) translateX(calc(var(--exit) * 1.4)) scale(1.25);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  border-radius: 50%;
+  border: none;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(44, 58, 43, 0.16);
+  transition: transform 0.2s ease;
+}
+
+.arrow:hover {
+  transform: scale(1.08);
+}
+
+.arrow.left {
+  left: calc(50% - 208px);
+}
+
+.arrow.right {
+  right: calc(50% - 208px);
+}
+
+.showcase-foot {
+  position: relative;
+  z-index: 6;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.shop-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border-radius: 100px;
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.6s ease, transform 0.2s ease;
+}
+
+.shop-now:hover {
+  transform: translateY(-1px);
+}
+
+.dots {
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dot.on {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+@media (max-width: 860px) {
+  .showcase-head {
+    display: block;
+  }
+
+  .stage {
+    height: 360px;
+  }
+
+  .bouquet {
+    height: 290px;
+  }
+
+  .word {
+    font-size: min(15vw, 80px);
+  }
+
+  .arrow.left {
+    left: 14px;
+  }
+
+  .arrow.right {
+    right: 14px;
+  }
+
+  .petal {
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petal-float {
+    animation: none;
+  }
+
+  .word,
+  .petal,
+  .bouquet {
+    transition: opacity 0.3s ease;
+  }
+}

@@ -1,0 +1,26 @@
+<div class="wrap page-pad">
+  <h1>Track an order</h1>
+  <p class="lede">Enter the order number from your confirmation. No account needed.</p>
+  <form class="track-box" (submit)="$event.preventDefault(); lookup()">
+    <app-icon name="search" [size]="18" />
+    <input [formControl]="query" placeholder="SW-48213" />
+    <button type="submit" class="btn-primary">Look up</button>
+  </form>
+  @if (error()) {
+    <p class="field-error">{{ error() }}</p>
+  }
+  @if (order(); as order) {
+    <div class="track-card">
+      <div class="status">{{ order.status }}</div>
+      <h2>{{ order.order_number }}</h2>
+      <p>{{ order.recipient_name }} · {{ order.area_name }}</p>
+      <p>{{ order.delivery_date }} · {{ order.slot_name }}</p>
+      <p class="total">{{ peso(order.total) }} · {{ order.payment_method === 'cod' ? 'Cash on delivery' : order.payment_method }}</p>
+      <ul>
+        @for (item of order.items; track $index) {
+          <li>{{ item.quantity }} × {{ item.product_name }} ({{ item.size_name }})</li>
+        }
+      </ul>
+    </div>
+  }
+</div>

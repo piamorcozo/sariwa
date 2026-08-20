@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sariwa — Flowers, without the overthinking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5F0E6;
+    --cream-deep:#EDE5D4;
+    --forest:#2C3A2B;
+    --forest-soft:#4A5C46;
+    --rose:#B5697A;
+    --rose-soft:#EADCDF;
+    --mustard:#D79A2C;
+    --sage:#8A9A7E;
+    --white:#FFFDF9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--cream);
+    color:var(--forest);
+    font-family:'Work Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 32px;
+    max-width:1120px;margin:0 auto;
+  }
+  .logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:0.02em;}
+  .logo em{font-style:italic;color:var(--rose);}
+  .nav-links{display:flex;gap:36px;font-size:15px;font-weight:500;}
+  .nav-links a{position:relative;padding-bottom:4px;}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0;height:1px;
+    background:var(--forest);transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-icons{display:flex;gap:20px;align-items:center;}
+  .nav-icons button{background:none;border:none;cursor:pointer;color:var(--forest);}
+
+  /* HERO */
+  .hero{
+    display:grid;grid-template-columns:1fr 0.9fr;gap:48px;
+    align-items:center;
+    padding:48px 32px 88px;
+    max-width:1120px;margin:0 auto;
+  }
+  .hero-eyebrow{
+    font-size:13px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--forest-soft);margin-bottom:18px;font-weight:600;
+  }
+  .hero h1{
+    font-size:52px;line-height:1.08;margin-bottom:22px;
+  }
+  .hero h1 em{font-style:italic;color:var(--rose);}
+  .hero p{
+    font-size:17px;color:var(--forest-soft);max-width:420px;margin-bottom:32px;
+  }
+  .hero-ctas{display:flex;align-items:center;gap:22px;}
+  .btn-primary{
+    background:var(--forest);color:var(--white);
+    padding:15px 28px;border-radius:100px;font-weight:500;font-size:15px;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn-primary:hover{background:var(--rose);transform:translateY(-1px);}
+  .link-quiet{font-size:14px;font-weight:500;border-bottom:1px solid var(--sage);padding-bottom:2px;color:var(--forest-soft);}
+  .link-quiet:hover{color:var(--forest);border-color:var(--forest);}
+
+  .hero-art{position:relative;}
+  .hero-art .blob{
+    position:absolute;inset:0;
+    background:var(--rose-soft);
+    border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;
+    z-index:0;
+  }
+  .hero-art svg{position:relative;z-index:1;}
+
+  /* MOMENT PICKER — signature element */
+  .moment-section{padding:8px 32px 64px;max-width:1120px;margin:0 auto;}
+  .moment-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:26px;flex-wrap:wrap;gap:10px;}
+  .moment-head h2{font-size:26px;}
+  .moment-head p{font-size:14px;color:var(--forest-soft);}
+  .moment-row{
+    display:flex;gap:12px;flex-wrap:wrap;
+  }
+  .moment-pill{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 20px 12px 14px;
+    border-radius:100px;
+    border:1px solid var(--cream-deep);
+    background:var(--white);
+    cursor:pointer;
+    font-size:14.5px;font-weight:500;
+    transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  }
+  .moment-pill:hover{transform:translateY(-2px);}
+  .moment-pill .dot{
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--cream-deep);
+    flex-shrink:0;
+  }
+  .moment-pill.active{
+    border-color:var(--forest);
+    background:var(--forest);
+    color:var(--white);
+  }
+  .moment-pill.active .dot{background:rgba(255,255,255,0.18);}
+
+  /* CURATED GRID */
+  .curated{padding:12px 32px 90px;max-width:1120px;margin:0 auto;}
+  .curated-head{margin-bottom:30px;}
+  .curated-head span{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);font-weight:600;}
+  .curated-head h2{font-size:28px;margin-top:8px;}
+  .card-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .card{
+    background:var(--white);
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid var(--cream-deep);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .card.hidden{display:none;}
+  .card-art{
+    aspect-ratio:1/0.9;
+    background:var(--cream-deep);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .card-tag{
+    position:absolute;top:14px;left:14px;
+    background:var(--white);
+    font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    padding:5px 10px;border-radius:100px;color:var(--forest-soft);
+  }
+  .card-body{padding:18px 20px 22px;}
+  .card-body h3{font-size:18px;margin-bottom:4px;font-weight:500;}
+  .card-body p{font-size:13.5px;color:var(--forest-soft);margin-bottom:14px;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;}
+  .price{font-family:'Fraunces',serif;font-size:17px;}
+  .add-btn{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--cream);border:1px solid var(--cream-deep);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:background .2s ease;
+  }
+  .add-btn:hover{background:var(--forest);color:var(--white);}
+
+  /* HOW IT WORKS */
+  .how{background:var(--forest);color:var(--cream);padding:80px 32px;}
+  .how-inner{max-width:1120px;margin:0 auto;}
+  .how-head{max-width:480px;margin-bottom:56px;}
+  .how-head span{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:var(--rose);font-weight:600;}
+  .how-head h2{font-size:30px;margin-top:10px;color:var(--white);}
+  .how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;}
+  .step-num{font-family:'Fraunces',serif;font-style:italic;font-size:15px;color:var(--rose);margin-bottom:14px;}
+  .step h3{font-size:19px;color:var(--white);margin-bottom:10px;font-weight:500;}
+  .step p{font-size:14px;color:#C9D0C4;max-width:280px;}
+
+  /* TRUST STRIP */
+  .trust{padding:80px 32px;max-width:1120px;margin:0 auto;}
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .quote{font-family:'Fraunces',serif;font-size:18px;font-style:italic;line-height:1.5;margin-bottom:16px;}
+  .quote-who{font-size:13px;color:var(--forest-soft);font-weight:500;}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--cream-deep);padding:48px 32px 36px;}
+  .footer-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+  .footer-inner p{font-size:13px;color:var(--forest-soft);}
+  .footer-links{display:flex;gap:24px;font-size:13px;color:var(--forest-soft);}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;padding-bottom:56px;}
+    .hero-art{order:-1;max-width:280px;margin:0 auto;}
+    .hero h1{font-size:38px;}
+    .nav-links{display:none;}
+    .card-grid{grid-template-columns:1fr;}
+    .how-steps{grid-template-columns:1fr;gap:40px;}
+    .trust-grid{grid-template-columns:1fr;gap:36px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">sari<em>wa</em></div>
+  <div class="nav-links">
+    <a href="#">Shop</a>
+    <a href="#moments">Occasions</a>
+    <a href="#">Our Story</a>
+  </div>
+  <div class="nav-icons">
+    <button aria-label="Search">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button aria-label="Cart">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L4 3H2"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Same-day, Metro Manila</div>
+    <h1>Flowers, <em>without</em><br>the overthinking.</h1>
+    <p>Tell us the moment. We'll hand you three arrangements worth sending — not three hundred.</p>
+    <div class="hero-ctas">
+      <a href="#moments" class="btn-primary">
+        What's the occasion?
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#" class="link-quiet">or see everything</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="blob"></div>
+    <svg viewBox="0 0 320 320" width="100%">
+      <g stroke="#2C3A2B" stroke-width="2" fill="none" stroke-linecap="round">
+        <path d="M160 260 C150 190 150 150 160 100" />
+        <path d="M160 180 C130 165 115 140 112 110" />
+        <path d="M160 200 C195 185 210 155 208 120" />
+        <ellipse cx="160" cy="90" rx="26" ry="34" fill="#B5697A" stroke="none"/>
+        <ellipse cx="130" cy="105" rx="20" ry="26" fill="#EADCDF" stroke="none" transform="rotate(-25 130 105)"/>
+        <ellipse cx="190" cy="105" rx="20" ry="26" fill="#EADCDF" stroke="none" transform="rotate(25 190 105)"/>
+        <circle cx="160" cy="88" r="9" fill="#D79A2C" stroke="none"/>
+        <ellipse cx="112" cy="130" rx="16" ry="10" fill="#8A9A7E" stroke="none" transform="rotate(-40 112 130)"/>
+        <ellipse cx="208" cy="140" rx="16" ry="10" fill="#8A9A7E" stroke="none" transform="rotate(40 208 140)"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="moment-section" id="moments">
+  <div class="moment-head">
+    <h2>What's the moment?</h2>
+    <p>Pick one — the picks below update.</p>
+  </div>
+  <div class="moment-row" id="momentRow">
+    <div class="moment-pill active" data-filter="all"><span class="dot">✦</span>Everything</div>
+    <div class="moment-pill" data-filter="birthday"><span class="dot">🎂</span>Birthday</div>
+    <div class="moment-pill" data-filter="sorry"><span class="dot">🕊</span>I'm Sorry</div>
+    <div class="moment-pill" data-filter="romance"><span class="dot">♡</span>Romance</div>
+    <div class="moment-pill" data-filter="sympathy"><span class="dot">✿</span>Sympathy</div>
+    <div class="moment-pill" data-filter="justbecause"><span class="dot">☀</span>Just Because</div>
+  </div>
+</section>
+
+<section class="curated">
+  <div class="curated-head">
+    <span>Curated, not endless</span>
+    <h2>This week's picks</h2>
+  </div>
+  <div class="card-grid" id="cardGrid">
+
+    <div class="card" data-tags="birthday justbecause">
+      <div class="card-art">
+        <div class="card-tag">Birthday</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="50" r="26" fill="#D79A2C"/><circle cx="30" cy="55" r="16" fill="#EADCDF"/><circle cx="70" cy="55" r="16" fill="#B5697A"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Sunny Kalog</h3>
+        <p>Sunflowers, marigold, and mustard mums.</p>
+        <div class="card-foot">
+          <span class="price">₱1,190</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-tags="romance">
+      <div class="card-art">
+        <div class="card-tag">Romance</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="40" cy="45" r="18" fill="#B5697A"/><circle cx="62" cy="50" r="18" fill="#C77E8B"/><circle cx="50" cy="65" r="18" fill="#8F4655"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Simpleng Mahal</h3>
+        <p>A dozen garden roses, no filler, no fuss.</p>
+        <div class="card-foot">
+          <span class="price">₱1,450</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-tags="sympathy sorry">
+      <div class="card-art">
+        <div class="card-tag">Sympathy</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="#FFFDF9" stroke="#8A9A7E" stroke-width="2"/><circle cx="30" cy="60" r="14" fill="#EADCDF"/><circle cx="70" cy="60" r="14" fill="#EADCDF"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Tahimik na Alay</h3>
+        <p>White lilies and eucalyptus, quietly arranged.</p>
+        <div class="card-foot">
+          <span class="price">₱1,690</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" data-tags="sorry">
+      <div class="card-art">
+        <div class="card-tag">I'm Sorry</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="45" r="18" fill="#EADCDF"/><circle cx="35" cy="60" r="14" fill="#C9D0C4"/><circle cx="65" cy="60" r="14" fill="#B5697A"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Paumanhin</h3>
+        <p>Soft blush tulips — says it before you do.</p>
+        <div class="card-foot">
+          <span class="price">₱1,290</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" data-tags="justbecause">
+      <div class="card-art">
+        <div class="card-tag">Just Because</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="45" cy="50" r="16" fill="#D79A2C"/><circle cx="65" cy="45" r="16" fill="#8A9A7E"/><circle cx="55" cy="65" r="16" fill="#B5697A"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Bahaghari</h3>
+        <p>Mixed garden blooms, a little of everything.</p>
+        <div class="card-foot">
+          <span class="price">₱990</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" data-tags="birthday romance">
+      <div class="card-art">
+        <div class="card-tag">Birthday</div>
+        <svg width="80" height="80" viewBox="0 0 100 100"><circle cx="50" cy="40" r="16" fill="#B5697A"/><circle cx="35" cy="60" r="16" fill="#D79A2C"/><circle cx="65" cy="60" r="16" fill="#EADCDF"/></svg>
+      </div>
+      <div class="card-body">
+        <h3>Masayang Kaarawan</h3>
+        <p>Playful pinks, peach ranunculus, one big bow.</p>
+        <div class="card-foot">
+          <span class="price">₱1,590</span>
+          <button class="add-btn" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-inner">
+    <div class="how-head">
+      <span>How ordering works</span>
+      <h2>Three steps. No account required to start.</h2>
+    </div>
+    <div class="how-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Pick a bouquet</h3>
+        <p>Choose from the moment you picked above, or search directly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Add a note, set the date</h3>
+        <p>Write a short message. Same-day delivery if ordered before 3pm.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>We hand-arrange & deliver</h3>
+        <p>A local florist builds it fresh the same day it's delivered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="trust-grid">
+    <div>
+      <p class="quote">"Ordered five minutes before a meeting. It still arrived same day, no drama."</p>
+      <p class="quote-who">— Regina, Makati</p>
+    </div>
+    <div>
+      <p class="quote">"I didn't have to scroll through a hundred bouquets to find one that made sense."</p>
+      <p class="quote-who">— Marco, Quezon City</p>
+    </div>
+    <div>
+      <p class="quote">"Felt like asking a friend who knows flowers, not a website."</p>
+      <p class="quote-who">— Anna, Pasig</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo" style="font-size:18px;">sari<em>wa</em></div>
+    <div class="footer-links">
+      <a href="#">Track an order</a>
+      <a href="#">Delivery areas</a>
+      <a href="#">Contact</a>
+    </div>
+    <p>© 2026 Sariwa. Metro Manila.</p>
+  </div>
+</footer>
+
+<script>
+  const pills = document.querySelectorAll('.moment-pill');
+  const cards = document.querySelectorAll('.card');
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.dataset.filter;
+      cards.forEach(card => {
+        const tags = card.dataset.tags;
+        if (filter === 'all' || tags.includes(filter)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

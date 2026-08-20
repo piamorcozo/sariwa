@@ -1,0 +1,9 @@
+.i8 {
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.invert {
+  filter: brightness(0) invert(1);
+}

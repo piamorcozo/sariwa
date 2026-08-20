@@ -1,0 +1,71 @@
+<section class="story-hero">
+  <div class="story-wall">
+    <app-drift-wall
+      [items]="customers"
+      [columns]="5"
+      [tileWidth]="200"
+      [tileHeight]="132"
+      [gap]="18"
+      [tilt]="16"
+      [turn]="-14"
+      [perspective]="1200"
+      [depth]="120"
+      [speed]="42"
+      direction="up"
+      [variance]="0.45"
+      [parallax]="0.6"
+      [lift]="64"
+      [fade]="0.55"
+      [dim]="0.78"
+      overlayColor="#fffcf7"
+    />
+  </div>
+
+  <div class="story-stats">
+    <h1>
+      Spreading Blooms
+      <span>Since Day One</span>
+    </h1>
+    <div class="story-count">
+      <app-counter
+        [value]="flowers"
+        [places]="places"
+        [fontSize]="100"
+        [padding]="4"
+        [gap]="6"
+        textColor="var(--rose)"
+        [fontWeight]="1000"
+        [gradientHeight]="0"
+        gradientFrom="transparent"
+        gradientTo="transparent"
+      />
+      <span class="plus">+</span>
+    </div>
+  </div>
+</section>
+
+<section class="story-body wrap">
+  <h1>A flower shop that doesn't make you work for it.</h1>
+  <p class="lede">
+    Sariwa started from a simple frustration: too many options, too little advice, and bouquets that
+    looked different from the photo. We keep a short list, arrange the same morning, and deliver
+    across Metro Manila.
+  </p>
+  <div class="story-points">
+    <article>
+      <h2>Fresh the day it's delivered</h2>
+      <p>
+        We don't hold arrangements overnight if we can help it. A local florist builds your bouquet
+        the morning of delivery, then a rider brings it within the window you picked.
+      </p>
+    </article>
+    <article>
+      <h2>Curated, not endless</h2>
+      <p>
+        Twelve arrangements, named in Filipino, sorted by moment. If you know the occasion, you
+        don't need a catalog of three hundred nearly identical roses.
+      </p>
+    </article>
+  </div>
+  <a routerLink="/shop" class="btn-primary">See this week's list</a>
+</section>

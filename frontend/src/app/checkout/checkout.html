@@ -1,0 +1,159 @@
+<div class="step-header wrap">
+  <h1>{{ step() === 'delivery' ? 'Delivery Details' : 'Payment' }}</h1>
+  <div class="steps">
+    <div class="step-item done"><div class="step-dot">1</div><div class="step-label">Cart</div></div>
+    <div class="step-line"></div>
+    <div class="step-item" [class.active]="step() === 'delivery'" [class.done]="step() === 'payment'">
+      <div class="step-dot">2</div><div class="step-label">Delivery</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" [class.active]="step() === 'payment'"><div class="step-dot">3</div><div class="step-label">Payment</div></div>
+  </div>
+</div>
+
+<div class="checkout-layout wrap">
+  <div>
+    @if (step() === 'delivery') {
+      <a routerLink="/cart" class="back-link">
+        <app-icon name="chevron-left" [size]="13" />
+        Back to cart
+      </a>
+      <form class="form-card" [formGroup]="form">
+        <h2>Who's it for?</h2>
+        <div class="form-row">
+          <div class="field" [class.invalid]="invalid('recipient_name')">
+            <label for="recipName">Recipient's name</label>
+            <input id="recipName" formControlName="recipient_name" placeholder="e.g. Maria Santos" />
+            @if (invalid('recipient_name')) { <span class="field-error">Please enter a recipient name.</span> }
+          </div>
+          <div class="field" [class.invalid]="invalid('recipient_phone')">
+            <label for="recipPhone">Recipient's phone</label>
+            <input id="recipPhone" formControlName="recipient_phone" placeholder="09XX XXX XXXX" />
+            @if (invalid('recipient_phone')) { <span class="field-error">Please enter a valid phone number.</span> }
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field full" [class.invalid]="invalid('address')">
+            <label for="address">Delivery address</label>
+            <input id="address" formControlName="address" placeholder="House/Unit no., Street, Barangay" />
+            @if (invalid('address')) { <span class="field-error">Please enter the delivery address.</span> }
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field" [class.invalid]="invalid('area_id')">
+            <label for="area">Area</label>
+            <select id="area" formControlName="area_id">
+              <option value="">Select area</option>
+              @for (area of areas(); track area.id) {
+                <option [value]="area.id">{{ area.name }} — {{ peso(area.fee) }}</option>
+              }
+            </select>
+            @if (invalid('area_id')) { <span class="field-error">Please select a delivery area.</span> }
+          </div>
+          <div class="field" [class.invalid]="invalid('delivery_date')">
+            <label for="deliveryDate">Delivery date</label>
+            <input id="deliveryDate" type="date" [min]="today" formControlName="delivery_date" />
+            @if (invalid('delivery_date')) { <span class="field-error">Please pick a delivery date.</span> }
+          </div>
+        </div>
+        <div class="field full">
+          <label>Delivery time</label>
+          <div class="slot-row">
+            @for (slot of slots(); track slot.id) {
+              <button type="button" class="slot" [class.active]="isSlot(slot.id)" (click)="setSlot(slot.id)">
+                {{ slot.name }}
+              </button>
+            }
+          </div>
+        </div>
+        <div class="field full">
+          <label for="giftMessage">Gift message <span class="optional">(optional)</span></label>
+          <textarea id="giftMessage" formControlName="gift_message" maxlength="140" placeholder="Write a short note to go with the flowers…"></textarea>
+          <div class="char-count">{{ form.controls.gift_message.value.length }}/140</div>
+        </div>
+        @if (!auth.isLoggedIn()) {
+          <div class="field full" [class.invalid]="invalid('guest_email')">
+            <label for="guestEmail">Your email for the confirmation</label>
+            <input id="guestEmail" type="email" formControlName="guest_email" placeholder="you@email.com" />
+          </div>
+        }
+        <div class="field full">
+          <label for="senderName">Your name on the card <span class="optional">(optional)</span></label>
+          <input id="senderName" formControlName="sender_name" placeholder="Shown on the note unless you send anonymously" />
+        </div>
+        <label class="checkbox-row">
+          <input type="checkbox" formControlName="anonymous" />
+          Send without my name on the card
+        </label>
+      </form>
+      <div class="continue-row">
+        <span></span>
+        <button type="button" class="btn-primary" (click)="goPayment()">
+          Continue to payment
+          <app-icon name="chevron-right" [size]="13" [invert]="true" />
+        </button>
+      </div>
+    } @else {
+      <button type="button" class="back-link" (click)="step.set('delivery')">
+        <app-icon name="chevron-left" [size]="13" />
+        Back to delivery details
+      </button>
+      <div class="form-card">
+        <h2>How would you like to pay?</h2>
+        <div class="pay-options">
+          <button type="button" class="pay-option" [class.active]="payment() === 'cod'" (click)="payment.set('cod')">
+            <div class="pay-icon"><app-icon name="money" [size]="20" /></div>
+            <div>
+              <h4>Cash on Delivery</h4>
+              <p>Pay the rider when it arrives. No card needed.</p>
+            </div>
+          </button>
+          <button type="button" class="pay-option" [class.active]="payment() === 'gcash'" (click)="payment.set('gcash')">
+            <div class="pay-icon"><app-icon name="phone" [size]="20" /></div>
+            <div>
+              <h4>GCash</h4>
+              <p>Pay instantly through the GCash app.</p>
+            </div>
+          </button>
+          <button type="button" class="pay-option" [class.active]="payment() === 'card'" (click)="payment.set('card')">
+            <div class="pay-icon"><app-icon name="bank-cards" [size]="20" /></div>
+            <div>
+              <h4>Credit / Debit Card</h4>
+              <p>Visa, Mastercard, and JCB accepted.</p>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="continue-row">
+        <span></span>
+        <button type="button" class="btn-primary" [disabled]="submitting()" (click)="placeOrder()">
+          Place order — {{ peso(total()) }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <aside class="summary">
+    <h3>Order Summary</h3>
+    @for (item of cart.cart().items; track item.id) {
+      <div class="summary-line"><span>{{ item.quantity }} × {{ item.name }}</span><span>{{ peso(item.line_total) }}</span></div>
+    }
+    <div class="summary-line"><span>Subtotal</span><span>{{ peso(cart.cart().subtotal) }}</span></div>
+    <div class="summary-line"><span>Delivery fee</span><span>{{ selectedArea() ? peso(deliveryFee()) : '—' }}</span></div>
+    @if (cart.cart().discount) {
+      <div class="summary-line"><span>Promo</span><span>-{{ peso(cart.cart().discount) }}</span></div>
+    }
+    <div class="summary-line total"><span>Total</span><span>{{ peso(total()) }}</span></div>
+    <div class="promo-row">
+      <input type="text" [value]="promo()" (input)="promo.set($any($event.target).value)" placeholder="Promo code" />
+      <button type="button" (click)="applyPromo()">Apply</button>
+    </div>
+    @if (cart.cart().promo_message) {
+      <p class="summary-note">{{ cart.cart().promo_message }}</p>
+    }
+    @if (promoError()) {
+      <p class="summary-note error">{{ promoError() }}</p>
+    }
+    <p class="summary-note">Free rescheduling up to 24 hours before delivery.</p>
+  </aside>
+</div>

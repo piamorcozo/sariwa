@@ -1,0 +1,92 @@
+<section
+  class="showcase"
+  [class.back]="!forward()"
+  [style.background]="current().bg"
+  (mouseenter)="paused.set(true)"
+  (mouseleave)="paused.set(false)"
+  (focusin)="paused.set(true)"
+  (focusout)="paused.set(false)"
+>
+  <div class="showcase-head wrap">
+    <span class="eyebrow">SAME-DAY, METRO MANILA</span>
+    <p class="caption" [style.color]="current().ink">{{ current().caption }}</p>
+  </div>
+
+  <div class="stage">
+    @for (slide of slides; track slide.key; let i = $index) {
+      <div
+        class="layer"
+        [class.is-active]="i === index()"
+        [class.is-leaving]="i === leaving()"
+        [attr.aria-hidden]="i === index() ? null : 'true'"
+      >
+        <span class="word" [style.color]="slide.ink">{{ slide.word }}</span>
+
+        @for (petal of slide.petals; track $index) {
+          <span
+            class="petal"
+            [class.front]="petal.front"
+            [style.left.%]="petal.x"
+            [style.top.%]="petal.y"
+            [style.width.px]="petal.size"
+            [style.opacity]="petal.opacity"
+          >
+            <span
+              class="petal-float"
+              [style.filter]="petalFilter(petal)"
+              [style.--rot]="petal.rot + 'deg'"
+              [style.--dx]="petal.dx + 'px'"
+              [style.--dy]="petal.dy + 'px'"
+              [style.--spin]="petal.spin + 'deg'"
+              [style.--dur]="petal.dur + 's'"
+              [style.--delay]="petal.delay + 's'"
+            >
+              <img [src]="slide.petal" alt="" aria-hidden="true" />
+            </span>
+          </span>
+        }
+
+        <a
+          class="bouquet"
+          routerLink="/shop"
+          [queryParams]="{ occasion: slide.occasion }"
+          [attr.tabindex]="i === index() ? null : -1"
+        >
+          <img [src]="slide.image" [alt]="slide.word + ' bouquet'" />
+        </a>
+      </div>
+    }
+
+    <button type="button" class="arrow left" (click)="go(-1)" aria-label="Previous occasion">
+      <app-icon name="chevron-left" [size]="14" />
+    </button>
+    <button type="button" class="arrow right" (click)="go(1)" aria-label="Next occasion">
+      <app-icon name="chevron-right" [size]="14" />
+    </button>
+  </div>
+
+  <div class="showcase-foot">
+    <a
+      class="shop-now"
+      routerLink="/shop"
+      [queryParams]="{ occasion: current().occasion }"
+      [style.background]="current().ink"
+    >
+      Shop {{ current().word }}
+      <app-icon name="chevron-right" [size]="13" [invert]="true" />
+    </a>
+    <div class="dots">
+      @for (slide of slides; track slide.key; let i = $index) {
+        <button
+          type="button"
+          class="dot"
+          [class.on]="i === index()"
+          [style.background]="i === index() ? current().ink : 'transparent'"
+          [style.border-color]="slide.ink"
+          (click)="select(i)"
+          [attr.aria-label]="'Show ' + slide.word"
+        ></button>
+      }
+    </div>
+  </div>
+</section>

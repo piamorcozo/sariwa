@@ -1,0 +1,42 @@
+h1 { font-size: 34px; margin-bottom: 8px; }
+.lede { color: var(--forest-soft); max-width: 420px; margin-bottom: 28px; }
+.track-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--cream-deep);
+  border-radius: 100px;
+  padding: 8px 8px 8px 18px;
+  max-width: 520px;
+  margin-bottom: 16px;
+}
+.track-box input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background: none;
+  font-size: 15px;
+}
+.track-card {
+  margin-top: 28px;
+  background: var(--white);
+  border: 1px solid var(--cream-deep);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 520px;
+}
+.status {
+  display: inline-block;
+  text-transform: capitalize;
+  background: var(--rose-soft);
+  color: var(--rose);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+.track-card p { color: var(--forest-soft); }
+.total { margin: 12px 0; color: var(--forest) !important; font-family: 'Fraunces', serif; font-size: 18px; }
+.track-card ul { margin-top: 12px; padding-left: 18px; color: var(--forest-soft); }

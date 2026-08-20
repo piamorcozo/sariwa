@@ -1,0 +1,42 @@
+<div class="wrap page-pad">
+  @if (auth.user(); as user) {
+    <div class="account-head">
+      <div>
+        <h1>Hello, {{ user.first_name }}.</h1>
+        <p>{{ user.email }}</p>
+      </div>
+      <button type="button" class="btn-ghost" (click)="logout()">
+        <app-icon name="logout-rounded-left" [size]="16" />
+        Sign out
+      </button>
+    </div>
+
+    <h2>Orders</h2>
+    @if (!orders().length) {
+      <p class="muted">No orders yet. <a routerLink="/shop">Browse bouquets</a></p>
+    } @else {
+      <div class="order-list">
+        @for (order of orders(); track order.order_number) {
+          <a class="order-row" [routerLink]="['/order', order.order_number]">
+            <div>
+              <strong>{{ order.order_number }}</strong>
+              <span>{{ order.delivery_date }} · {{ order.status }}</span>
+            </div>
+            <span>{{ peso(order.total) }}</span>
+          </a>
+        }
+      </div>
+    }
+
+    <h2>Saved</h2>
+    @if (!favorites().length) {
+      <p class="muted">Nothing saved yet.</p>
+    } @else {
+      <div class="card-grid">
+        @for (product of favorites(); track product.id) {
+          <app-product-card [product]="product" />
+        }
+      </div>
+    }
+  }
+</div>

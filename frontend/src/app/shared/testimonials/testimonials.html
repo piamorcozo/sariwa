@@ -1,0 +1,15 @@
+<section class="testimonials">
+  <div class="testimonials-inner wrap">
+    <div class="testimonials-head fade-up">
+      <!-- <span class="testimonials-badge">Testimonials</span> -->
+      <h2>What our customers say</h2>
+      <p>Real orders, real moments — from people across Metro Manila.</p>
+    </div>
+
+    <div class="testimonials-columns">
+      <app-testimonials-column [testimonials]="firstColumn" [duration]="15" />
+      <app-testimonials-column [testimonials]="secondColumn" variant="tablet" [duration]="19" />
+      <app-testimonials-column [testimonials]="thirdColumn" variant="desktop" [duration]="17" />
+    </div>
+  </div>
+</section>

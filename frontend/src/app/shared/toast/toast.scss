@@ -1,0 +1,17 @@
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  background: var(--forest);
+  color: var(--white);
+  padding: 12px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  z-index: 80;
+  animation: fade-up 0.25s ease;
+}
+
+.toast.error {
+  background: var(--error);
+}

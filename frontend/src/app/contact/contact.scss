@@ -1,0 +1,26 @@
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+h1 { font-size: 36px; margin: 10px 0 12px; }
+.lede { color: var(--forest-soft); margin-bottom: 24px; }
+.info-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.info-list div { display: flex; align-items: center; gap: 10px; }
+h2 { font-size: 20px; margin-bottom: 12px; }
+.areas { color: var(--forest-soft); padding-left: 18px; }
+.form-card {
+  background: var(--white);
+  border: 1px solid var(--cream-deep);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 860px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}

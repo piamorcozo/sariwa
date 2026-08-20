@@ -1,0 +1,26 @@
+.account-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+h1 { font-size: 34px; }
+.account-head p, .muted { color: var(--forest-soft); }
+h2 { font-size: 22px; margin: 28px 0 14px; }
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1px solid var(--cream-deep);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+.order-row span { color: var(--forest-soft); font-size: 13px; display: block; }
+.muted a { border-bottom: 1px solid var(--sage); }

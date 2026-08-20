@@ -1,0 +1,15 @@
+<div class="auth wrap page-pad">
+  <form class="form-card" [formGroup]="form" (ngSubmit)="submit()">
+    <h1>Create an account</h1>
+    <p>Optional — you can still check out as a guest.</p>
+    <div class="row">
+      <div class="field"><label>First name</label><input formControlName="first_name" /></div>
+      <div class="field"><label>Last name</label><input formControlName="last_name" /></div>
+    </div>
+    <div class="field"><label>Email</label><input type="email" formControlName="email" /></div>
+    <div class="field"><label>Phone</label><input formControlName="phone" /></div>
+    <div class="field"><label>Password</label><input type="password" formControlName="password" /></div>
+    <button type="submit" class="btn-primary">Create account</button>
+    <p class="switch">Already have one? <a routerLink="/login">Sign in</a></p>
+  </form>
+</div>

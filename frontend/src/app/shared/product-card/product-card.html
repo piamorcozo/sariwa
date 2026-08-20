@@ -1,0 +1,43 @@
+<a class="card" [routerLink]="['/product', product().slug]">
+  <div class="card-art">
+    @if (product().occasion) {
+      <div class="card-tag">{{ product().occasion }}</div>
+    }
+    <button
+      type="button"
+      class="card-fav"
+      [class.on]="product().favorited"
+      [class.burst]="heartBurst()"
+      (click)="favorite($event)"
+      (animationend)="heartBurst.set(false)"
+      [attr.aria-label]="product().favorited ? 'Remove from saved' : 'Save'"
+    >
+      <svg class="heart-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+        />
+      </svg>
+    </button>
+    <img [src]="product().image || ''" [alt]="product().name" />
+  </div>
+  <div class="card-body">
+    <div class="rating">
+      <app-icon name="star" [size]="12" />
+      {{ product().rating }}
+      <span>({{ product().review_count }})</span>
+    </div>
+    <h3>{{ product().name }}</h3>
+    <p>{{ product().short_description }}</p>
+    <div class="card-foot">
+      <span class="price">
+       <b>{{ peso(product().price) }}</b>
+        @if (product().compare_at_price) {
+          <span class="was">{{ peso(product().compare_at_price) }}</span>
+        }
+      </span>
+      <button type="button" class="add-btn" (click)="add($event)" aria-label="Add to cart">
+        <app-icon name="plus-math" [size]="14" />
+      </button>
+    </div>
+  </div>
+</a>

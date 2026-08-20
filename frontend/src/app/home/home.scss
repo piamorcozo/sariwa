@@ -1,0 +1,455 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+  padding: 48px 32px 72px;
+}
+
+.hero-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-soft);
+  margin-bottom: 18px;
+  font-weight: 600;
+}
+
+.hero h1 {
+  font-size: 52px;
+  line-height: 1.08;
+  margin-bottom: 22px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--rose);
+}
+
+.hero p {
+  font-size: 17px;
+  color: var(--forest-soft);
+  max-width: 420px;
+  margin-bottom: 32px;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.hero-art {
+  position: relative;
+}
+
+.hero-art .blob {
+  position: absolute;
+  inset: 8% 6%;
+  background: var(--rose-soft);
+  border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  z-index: 0;
+}
+
+.hero-art img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 48% 40% 46% 54% / 42% 48% 52% 58%;
+}
+
+.home-wide {
+  width: min(1520px, calc(100vw - 24px));
+  margin-inline: auto;
+  padding-inline: 12px;
+}
+
+.moment-section {
+  padding-block: 8px 48px;
+}
+
+.promo-banners {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.55fr);
+  gap: 16px;
+  padding-block: 4px 52px;
+  align-items: stretch;
+}
+
+.promo-banner {
+  display: block;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.promo-banner img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.moment-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.moment-head h2 {
+  font-size: 26px;
+}
+
+.moment-head p,
+.curated-head span {
+  font-size: 14px;
+  color: var(--forest-soft);
+}
+
+.dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream-deep);
+}
+
+.moment-pill.active .dot {
+  background: rgba(255, 255, 249, 0.18);
+}
+
+.curated {
+  padding-block: 12px 90px;
+}
+
+.curated .card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.curated-head {
+  margin-bottom: 30px;
+}
+
+.curated-head h2 {
+  font-size: 28px;
+  margin-top: 8px;
+}
+
+.how {
+  position: relative;
+  background: var(--cream);
+  padding: 78px 0 72px;
+  overflow: hidden;
+}
+
+.how-inner {
+  position: relative;
+}
+
+.how-head {
+  text-align: center;
+  margin-bottom: 54px;
+}
+
+.how-head h2 {
+  font-size: 40px;
+  line-height: 1.18;
+  margin-top: 12px;
+}
+
+.spark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  vertical-align: 22%;
+  fill: none;
+  stroke: var(--mustard);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.stickers .sticker {
+  position: absolute;
+  // width: 96px;
+  filter: drop-shadow(0 12px 16px rgba(44, 58, 43, 0.16));
+  pointer-events: none;
+}
+
+.sticker.s1 {
+  top: -14px;
+  left: 2%;
+  width: 50px;
+  transform: rotate(-24deg);
+}
+
+.sticker.s2 {
+  top: 60px;
+  right: 4%;
+  width: 35px;
+  transform: rotate(28deg);
+}
+
+.sticker.s3 {
+  top: 400px;
+  left: -34px;
+  width: 60px;
+  transform: rotate(52deg);
+  z-index: 3;
+}
+
+.sticker.s4 {
+  bottom: 50px;
+  right: -28px;
+  width: 60px;
+  transform: rotate(-38deg);
+  z-index: 3;
+}
+
+.sticker.s5 {
+  bottom: -6px;
+  left: 34%;
+  width: 72px;
+  transform: rotate(16deg);
+  z-index: 3;
+}
+
+.steps-stage {
+  position: relative;
+}
+
+// The band runs wider than the section so it bleeds off both edges instead of
+// ending mid-screen; `.how` clips the overflow.
+.ribbon {
+  position: absolute;
+  left: 50%;
+  bottom: -70px;
+  z-index: 0;
+  width: max(1620px, 106vw);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.ribbon svg {
+  width: 100%;
+  height: auto;
+}
+
+.ribbon text {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  fill: var(--forest);
+}
+
+.how-steps {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  padding: 56px 0 150px;
+}
+
+.step {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 320px;
+  min-height: 372px;
+  padding: 26px 30px 30px;
+  border-radius: 26px;
+  // Faint dot grid over the flat colour, like the printed cards in the reference.
+  background-image: radial-gradient(rgba(44, 58, 43, 0.07) 1.2px, transparent 1.2px);
+  background-size: 12px 12px;
+  box-shadow: 0 22px 40px rgba(44, 58, 43, 0.14);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.step.one {
+  background-color: #e7def3;
+  transform: rotate(-6deg) translateY(16px);
+  margin-right: -10px;
+}
+
+.step.two {
+  background-color: #f7dde2;
+  transform: rotate(3deg) translateY(-18px);
+  z-index: 2;
+}
+
+.step.three {
+  background-color: #fae7b8;
+  transform: rotate(-2.5deg) translateY(8px);
+  margin-left: -10px;
+}
+
+.step:hover {
+  transform: rotate(0deg) translateY(-6px);
+  z-index: 4;
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: var(--white);
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.step h3 {
+  font-size: 25px;
+  line-height: 1.16;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.step p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--forest-soft);
+}
+
+.step.one .step-num,
+.step.one h3 {
+  color: #5d3585;
+}
+
+.step.two .step-num,
+.step.two h3 {
+  color: #a3243a;
+}
+
+.step.three .step-num,
+.step.three h3 {
+  color: #9a6a11;
+}
+
+
+@media (max-width: 860px) {
+  .hero {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .curated .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .home-wide {
+    width: min(1520px, calc(100vw - 20px));
+    padding-inline: 10px;
+  }
+
+  .promo-banners {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding-bottom: 40px;
+  }
+
+  .promo-banner img {
+    min-height: 0;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 24px;
+  }
+
+  .hero-art {
+    order: -1;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .how-head {
+    padding: 0 20px;
+  }
+
+  .how-head h2 {
+    font-size: 27px;
+  }
+
+  .how-head br {
+    display: none;
+  }
+
+  .how-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding: 44px 20px 60px;
+  }
+
+  // Zoom in on the band so the type stays readable, keeping the knot on screen.
+  .ribbon {
+    left: 0;
+    width: 300vw;
+    bottom: -24px;
+  }
+
+  .step {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 340px;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .step.one,
+  .step.two,
+  .step.three {
+    transform: rotate(-1.5deg);
+  }
+
+  .step.two {
+    transform: rotate(1.5deg);
+  }
+
+  .sticker.s1 {
+    width: 64px;
+    top: -22px;
+    left: -12px;
+  }
+
+  .sticker.s2 {
+    width: 58px;
+    top: -18px;
+    right: -10px;
+  }
+
+  .sticker.s3,
+  .sticker.s4,
+  .sticker.s5 {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .curated .card-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,48 @@
+<div class="wrap page-pad contact-layout">
+  <div>
+    <span class="eyebrow">Contact</span>
+    <h1>Need help with an order?</h1>
+    <p class="lede">Same-day questions before 3pm usually get a same-day answer.</p>
+    <div class="info-list">
+      <div><app-icon name="phone" [size]="18" /><span>0917 000 0000</span></div>
+      <div><app-icon name="new-post" [size]="18" /><span>hello&#64;sariwa.ph</span></div>
+      <div><app-icon name="clock" [size]="18" /><span>Daily, 8am – 8pm</span></div>
+      <div><app-icon name="marker" [size]="18" /><span>Metro Manila delivery</span></div>
+    </div>
+    <h2>Delivery areas</h2>
+    <ul class="areas">
+      @for (area of areas(); track area.id) {
+        <li>{{ area.name }} — {{ peso(area.fee) }}</li>
+      }
+    </ul>
+  </div>
+  <form class="form-card" [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Write to us</h2>
+    <div class="field">
+      <label>Name</label>
+      <input formControlName="name" />
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" formControlName="email" />
+    </div>
+    <div class="field">
+      <label>Phone</label>
+      <input formControlName="phone" />
+    </div>
+    <div class="field">
+      <label>Topic</label>
+      <select formControlName="topic">
+        <option value="order">An existing order</option>
+        <option value="delivery">Delivery area</option>
+        <option value="product">A bouquet</option>
+        <option value="other">Something else</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Message</label>
+      <textarea formControlName="message" rows="5"></textarea>
+    </div>
+    <button type="submit" class="btn-primary">Send message</button>
+  </form>
+</div>

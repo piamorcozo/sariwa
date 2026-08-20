@@ -1,0 +1,16 @@
+.auth { display: flex; justify-content: center; }
+.form-card {
+  width: min(480px, 100%);
+  background: var(--white);
+  border: 1px solid var(--cream-deep);
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+h1 { font-size: 28px; }
+p, .switch { color: var(--forest-soft); font-size: 14px; }
+.switch a { color: var(--forest); border-bottom: 1px solid var(--sage); }
+@media (max-width: 520px) { .row { grid-template-columns: 1fr; } }

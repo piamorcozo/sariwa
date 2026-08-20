@@ -1,0 +1,222 @@
+@if (product(); as p) {
+  <div class="breadcrumb wrap">
+    <a routerLink="/shop">Shop</a>
+    <span>/</span>
+    @if (p.occasions[0]) {
+      <a routerLink="/shop" [queryParams]="{ occasion: p.occasions[0].slug }">{{ p.occasions[0].name }}</a>
+      <span>/</span>
+    }
+    {{ p.name }}
+  </div>
+
+  <div class="product-layout wrap">
+    <div class="gallery-col">
+      <div class="gallery">
+        <div class="gallery-main">
+          @if (savePercent() > 0) {
+            <span class="sale-tag">Save {{ peso(num(size()?.compare_at_price) - num(size()?.price)) }}</span>
+          }
+          <img [src]="p.images[imageIndex()]?.url || p.image" [alt]="p.name" />
+        </div>
+        <div class="gallery-thumbs">
+          @for (image of p.images; track image.id; let i = $index) {
+            <button type="button" class="thumb" [class.active]="imageIndex() === i" (click)="imageIndex.set(i)">
+              <img [src]="image.url" [alt]="image.alt" />
+            </button>
+          }
+        </div>
+      </div>
+
+      <div id="reviews" class="reviews-block" [class.open]="reviewsOpen()">
+        <button type="button" class="reviews-toggle" (click)="toggleReviews()">
+          <span>Reviews ({{ p.review_count }})</span>
+          <app-icon name="plus-math" [size]="14" />
+        </button>
+        @if (reviewsOpen()) {
+          <div class="reviews-list">
+            @if (!p.reviews.length) {
+              <p class="review-empty">No written reviews yet — the rating is from verified orders.</p>
+            }
+            @for (review of p.reviews; track review.id) {
+              <article class="review">
+                <div class="review-top">
+                  <strong>{{ review.author }}</strong>
+                  <span>{{ reviewDate(review.created_at) }}</span>
+                </div>
+                <div class="review-stars" [attr.aria-label]="review.rating + ' out of 5'">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <span class="star" [class.dim]="star > review.rating">
+                      <app-icon name="star" [size]="12" />
+                    </span>
+                  }
+                </div>
+                <p>{{ review.comment }}</p>
+              </article>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="product-info">
+      <div class="eyebrow">{{ p.occasion }}</div>
+      <h1>{{ p.name }}</h1>
+      <button type="button" class="rating-row" (click)="toggleReviews()">
+        <app-icon name="star" [size]="13" />
+        {{ p.rating }} · {{ p.review_count }} reviews
+      </button>
+      <div class="price-row">
+        <span class="now">{{ peso(size()?.price) }}</span>
+        @if (size()?.compare_at_price) {
+          <span class="was">{{ peso(size()?.compare_at_price) }}</span>
+          <span class="save">{{ savePercent() }}% off</span>
+        }
+      </div>
+      <p class="desc">{{ p.description }}</p>
+
+      <div class="tag-row">
+        <span class="tag-pill">{{ p.flower_type }}</span>
+        @for (occasion of p.occasions; track occasion.id) {
+          <span class="tag-pill">{{ occasion.name }}</span>
+        }
+        @if (p.same_day_eligible) {
+          <span class="tag-pill">Same-day eligible</span>
+        }
+      </div>
+
+      <div class="option-group">
+        <label class="group-label">Size</label>
+        <div class="size-row">
+          @for (option of p.sizes; track option.id) {
+            <button type="button" class="size-opt" [class.active]="size()?.id === option.id" (click)="pickSize(option)">
+              <div class="size-name">{{ option.name }}</div>
+              <div class="size-price">{{ peso(option.price) }}</div>
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="schedule">
+        <p class="group-label">Select delivery date</p>
+        <div class="date-row">
+          @for (chip of dates(); track chip.iso) {
+            <button
+              type="button"
+              class="date-card"
+              [class.active]="!customDate() && selectedDate() === chip.iso"
+              [class.disabled]="chip.disabled"
+              [disabled]="chip.disabled"
+              (click)="pickDate(chip)"
+            >
+              <span class="date-month">{{ chip.month }} {{ chip.day }}</span>
+              <span class="date-caption">{{ chip.caption }}</span>
+            </button>
+          }
+          <button
+            type="button"
+            class="date-card calendar-card"
+            [class.active]="customDate()"
+            (click)="openCalendar()"
+          >
+            <app-icon name="calendar" [size]="18" />
+            <span class="date-month">{{ calendarCaption() }}</span>
+            @if (calendarMonth()) {
+              <span class="date-caption">{{ calendarMonth() }}</span>
+            }
+          </button>
+          <input
+            #calendarInput
+            class="calendar-input"
+            type="date"
+            [min]="calendarMin()"
+            [value]="selectedDate()"
+            (change)="onCalendar($event)" 
+            tabindex="-1"
+            aria-label="Pick another delivery date"
+          />
+        </div>
+
+        <p class="group-label">Select delivery time</p>
+        <div class="time-grid">
+          @for (slot of slots(); track slot.id) {
+            <button
+              type="button"
+              class="time-card"
+              [class.active]="selectedSlot() === slot.id"
+              (click)="pickSlot(slot.id)"
+            >
+              {{ slot.name }}
+            </button>
+          }
+        </div>
+        @if (selectedDate() && selectedSlotName()) {
+          <p class="schedule-summary">
+            Delivering {{ selectedDateLabel() }} · {{ selectedSlotName() }}
+          </p>
+        }
+      </div>
+
+      <div class="qty-add-row">
+        <div class="qty-control">
+          <button type="button" (click)="dec()" aria-label="Decrease quantity">−</button>
+          <span>{{ qty() }}</span>
+          <button type="button" (click)="inc()" aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button" class="btn-primary" [class.added]="added()" (click)="add()">
+          {{ added() ? 'Added to cart' : 'Add to cart — ' + peso(num(size()?.price) * qty()) }}
+        </button>
+      </div>
+
+      @if (sameDay(); as info) {
+        <div class="delivery-note">
+          <app-icon name="clock" [size]="16" />
+          <span>{{ info.label }}</span>
+        </div>
+      }
+
+      <div class="accordion">
+        <div class="accordion-item" [class.open]="openPanel() === 'included'">
+          <button type="button" class="accordion-head" (click)="openPanel.set(openPanel() === 'included' ? '' : 'included')">
+            What's included
+            <app-icon name="plus-math" [size]="14" />
+          </button>
+          @if (openPanel() === 'included') {
+            <div class="accordion-body"><p>{{ p.included_text }}</p></div>
+          }
+        </div>
+        <div class="accordion-item" [class.open]="openPanel() === 'delivery'">
+          <button type="button" class="accordion-head" (click)="openPanel.set(openPanel() === 'delivery' ? '' : 'delivery')">
+            Delivery & substitution
+            <app-icon name="plus-math" [size]="14" />
+          </button>
+          @if (openPanel() === 'delivery') {
+            <div class="accordion-body"><p>{{ p.delivery_text }}</p></div>
+          }
+        </div>
+        <div class="accordion-item" [class.open]="openPanel() === 'care'">
+          <button type="button" class="accordion-head" (click)="openPanel.set(openPanel() === 'care' ? '' : 'care')">
+            Care instructions
+            <app-icon name="plus-math" [size]="14" />
+          </button>
+          @if (openPanel() === 'care') {
+            <div class="accordion-body"><p>{{ p.care_text }}</p></div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="similar wrap">
+    <div class="similar-head">
+      <div>
+        <span class="eyebrow">You might also like</span>
+        <h2>Similar to {{ p.name }}</h2>
+      </div>
+    </div>
+    <div class="card-grid">
+      @for (item of similar().slice(0, 3); track item.id) {
+        <app-product-card [product]="item" />
+      }
+    </div>
+  </div>
+}

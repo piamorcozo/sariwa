@@ -1,0 +1,22 @@
+<div class="confirm wrap">
+  @if (order(); as order) {
+    <div class="confirm-icon">
+      <app-icon name="checked" [size]="28" />
+    </div>
+    <h1>Order placed.</h1>
+    <p>We've sent a confirmation to your email.</p>
+    <p>A florist will begin arranging it the morning of delivery.</p>
+    <div class="confirm-order">
+      <div><span>Order number</span><span>{{ order.order_number }}</span></div>
+      <div><span>Delivering to</span><span>{{ order.recipient_name }}</span></div>
+      <div><span>Date</span><span>{{ order.delivery_date }} · {{ order.slot_name }}</span></div>
+      <div><span>Payment</span><span>{{ order.payment_method === 'cod' ? 'Cash on delivery' : order.payment_method }}</span></div>
+      <div><span>Total</span><span>{{ peso(order.total) }}</span></div>
+    </div>
+    <a [routerLink]="['/track']" [queryParams]="{ order: order.order_number }" class="link-quiet">Track this order</a>
+  } @else if (missing()) {
+    <h1>We couldn't find that order.</h1>
+    <p>Double-check the number, or go back to the shop.</p>
+    <a routerLink="/shop" class="btn-primary">Browse bouquets</a>
+  }
+</div>

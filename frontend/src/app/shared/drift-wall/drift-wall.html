@@ -1,0 +1,49 @@
+<div
+  #wall
+  class="drift-wall"
+  [class.drift-wall--reduced]="reduced()"
+  [style.--dw-tile-w]="tileWidth() + 'px'"
+  [style.--dw-tile-h]="tileHeight() + 'px'"
+  [style.--dw-gap]="gap() + 'px'"
+  [style.--dw-radius]="radius() + 'px'"
+  [style.--dw-perspective]="perspective() + 'px'"
+  [style.--dw-lift]="lift() + 'px'"
+  [style.--dw-dim]="dim()"
+  [style.--dw-gray]="grayscale() ? 1 : 0"
+  [style.--dw-overlay]="overlayColor()"
+  [style.--dw-edge]="(1 - fade()) * 100 + '%'"
+  role="group"
+  aria-label="Wall of happy customers"
+  (pointerenter)="onPointerEnter()"
+  (pointerleave)="onPointerLeave()"
+  (pointermove)="onPointerMove($event)"
+>
+  <div #plane class="drift-wall__plane">
+    @for (col of columnItems(); track $index; let c = $index) {
+      <div class="drift-wall__col">
+        <div class="drift-wall__track" #tracks>
+          @for (copy of copies()[c]; track copy) {
+            @for (item of col; track $index; let i = $index) {
+              <div
+                class="drift-wall__tile"
+                [class.is-active]="activeId() === c + '-' + copy + '-' + i"
+                [attr.data-tile-id]="c + '-' + copy + '-' + i"
+                [attr.data-col]="c"
+                tabindex="0"
+                role="img"
+                [attr.aria-label]="item.title || 'Customer with flowers'"
+                (focus)="activate(c + '-' + copy + '-' + i, c)"
+                (blur)="release()"
+              >
+                <span class="drift-wall__inner">
+                  <img [src]="item.image" [alt]="item.title || ''" loading="lazy" decoding="async" draggable="false" />
+                  <span class="drift-wall__overlay" aria-hidden="true"></span>
+                </span>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

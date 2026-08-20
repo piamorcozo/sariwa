@@ -1,0 +1,16 @@
+<div class="auth wrap page-pad">
+  <form class="form-card" [formGroup]="form" (ngSubmit)="submit()">
+    <h1>Sign in</h1>
+    <p>Use your Sariwa account to save favorites and see past orders.</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" formControlName="email" />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" formControlName="password" />
+    </div>
+    <button type="submit" class="btn-primary">Sign in <app-icon name="login-rounded-right" [size]="16" [invert]="true" /></button>
+    <p class="switch">New here? <a routerLink="/register">Create an account</a></p>
+  </form>
+</div>

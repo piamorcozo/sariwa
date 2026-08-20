@@ -1,0 +1,35 @@
+footer {
+  border-top: 1px solid var(--cream-deep);
+  padding: 48px 32px 36px;
+}
+
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-inner p,
+.footer-links {
+  font-size: 13px;
+  color: var(--forest-soft);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-inner a:hover {
+  color: var(--forest);
+}
+
+@media (max-width: 860px) {
+  footer {
+    padding: 40px 20px 28px;
+  }
+}

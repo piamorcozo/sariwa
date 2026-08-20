@@ -1,0 +1,66 @@
+<header class="nav-wrap">
+  <nav class="nav">
+    <a routerLink="/" class="logo">sari<em>wa</em></a>
+
+    <div class="nav-links">
+      <a routerLink="/shop" routerLinkActive="current">Shop</a>
+      <a routerLink="/" fragment="moments">Occasions</a>
+      <a routerLink="/our-story" routerLinkActive="current">Our Story</a>
+    </div>
+
+    <div class="nav-icons">
+      <button type="button" (click)="toggleSearch()" aria-label="Search">
+        <app-icon name="search" [size]="19" label="Search" />
+      </button>
+      <a routerLink="/account" [attr.aria-label]="auth.isLoggedIn() ? 'Account' : 'Sign in'">
+        <app-icon name="user" [size]="19" label="Account" />
+      </a>
+      <a routerLink="/cart" class="cart-link" aria-label="Cart">
+        <app-icon name="shopping-bag" [size]="19" label="Cart" />
+        @if (cart.count() > 0) {
+          <span class="badge">{{ cart.count() }}</span>
+        }
+      </a>
+      <button type="button" class="menu-btn" (click)="toggleMenu()" [attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'">
+        <app-icon [name]="menuOpen() ? 'multiply' : 'menu'" [size]="20" />
+      </button>
+    </div>
+  </nav>
+
+  @if (searchOpen()) {
+    <div class="search-panel fade-up">
+      <form class="search-box" (submit)="goSearch($event)">
+        <app-icon name="search" [size]="16" />
+        <input id="nav-search" type="search" [formControl]="query" placeholder="Search bouquets, flowers, gifts…" />
+      </form>
+      @if (results().length) {
+        <div class="search-results">
+          @for (item of results(); track item.id) {
+            <a [routerLink]="['/product', item.slug]" class="search-row">
+              <img [src]="item.image" [alt]="item.name" />
+              <div>
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.short_description }}</span>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (menuOpen()) {
+    <div class="mobile-menu fade-up">
+      <a routerLink="/shop">Shop</a>
+      <a routerLink="/" fragment="moments">Occasions</a>
+      <a routerLink="/our-story">Our Story</a>
+      <a routerLink="/track">Track an order</a>
+      <a routerLink="/contact">Contact</a>
+      @if (auth.isLoggedIn()) {
+        <a routerLink="/account">Account</a>
+      } @else {
+        <a routerLink="/login">Sign in</a>
+      }
+    </div>
+  }
+</header>

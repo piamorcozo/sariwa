@@ -1,0 +1,64 @@
+<div class="page-head wrap">
+  <div>
+    <!-- <h1>All Bouquets & Gifts</h1>
+    <p>Every arrangement we carry, in one honest list — filter by moment or flower.</p> -->
+    <h1>Flowers, <em>without</em> the overthinking.</h1>
+    <p>Tell us the moment. We'll hand you three arrangements worth sending — not three hundred.</p>
+  </div>
+  <div class="search-box">
+    <app-icon name="search" [size]="16" />
+    <input type="search" [formControl]="query" placeholder="Search bouquets, flowers, gifts…" />
+  </div>
+</div>
+
+<div class="filter-bar wrap">
+  <div class="chip-row">
+    <button type="button" class="chip" [class.active]="occasion() === 'all'" (click)="setOccasion('all')">All Occasions</button>
+    @for (item of occasions(); track item.id) {
+      <button type="button" class="chip" [class.active]="occasion() === item.slug" (click)="setOccasion(item.slug)">{{ item.name }}</button>
+    }
+  </div>
+  <div class="sub-controls">
+    <div class="select-group">
+      <select [formControl]="type">
+        <option value="all">Flower type: All</option>
+        @for (item of types(); track item.id) {
+          <option [value]="item.slug">{{ item.name }}</option>
+        }
+      </select>
+      <select [formControl]="price">
+        <option value="all">Any price</option>
+        <option value="0-1200">Under ₱1,200</option>
+        <option value="1200-1700">₱1,200 – ₱1,700</option>
+        <option value="1700-999999">₱1,700+</option>
+      </select>
+      <select [formControl]="sort">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Highest rated</option>
+      </select>
+    </div>
+    <div class="result-count">{{ products().length }} arrangement{{ products().length === 1 ? '' : 's' }}</div>
+  </div>
+</div>
+
+<div class="shop-grid wrap">
+  @for (product of shown(); track product.id) {
+    <app-product-card [product]="product" />
+  }
+</div>
+
+@if (!products().length) {
+  <div class="empty-state">
+    <h3>Nothing matches that combination.</h3>
+    <p>Try clearing a filter — or tell us what you're looking for.</p>
+    <button type="button" class="btn-primary" (click)="clear()">Clear filters</button>
+  </div>
+}
+
+@if (visibleCount() < products().length) {
+  <div class="load-more-wrap">
+    <button type="button" class="load-more" (click)="visibleCount.set(visibleCount() + 6)">Show more arrangements</button>
+  </div>
+}

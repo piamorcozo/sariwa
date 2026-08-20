@@ -1,0 +1,37 @@
+<span class="counter-container">
+  <span
+    class="counter-counter"
+    [style.fontSize.px]="fontSize()"
+    [style.gap.px]="gap()"
+    [style.borderRadius.px]="borderRadius()"
+    [style.paddingLeft.px]="horizontalPadding()"
+    [style.paddingRight.px]="horizontalPadding()"
+    [style.color]="textColor()"
+    [style.fontWeight]="fontWeight()"
+    [style.direction]="'ltr'"
+  >
+    @for (place of places(); track $index) {
+      @if (place === '.') {
+        <span class="counter-digit" [style.height.px]="height()" [style.width]="'fit-content'">.</span>
+      } @else {
+        <span class="counter-digit" [style.height.px]="height()">
+          @for (n of digits; track n) {
+            <span class="counter-number" [style.transform]="'translateY(' + offset(place, n) + 'px)'">{{ n }}</span>
+          }
+        </span>
+      }
+    }
+  </span>
+  <span class="gradient-container">
+    <span
+      class="top-gradient"
+      [style.height.px]="gradientHeight()"
+      [style.background]="'linear-gradient(to bottom, ' + gradientFrom() + ', ' + gradientTo() + ')'"
+    ></span>
+    <span
+      class="bottom-gradient"
+      [style.height.px]="gradientHeight()"
+      [style.background]="'linear-gradient(to top, ' + gradientFrom() + ', ' + gradientTo() + ')'"
+    ></span>
+  </span>
+</span>

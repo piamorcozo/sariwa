@@ -1,0 +1,151 @@
+.card {
+  --card-studio: #ecebed;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card-art {
+  aspect-ratio: 1 / 0.9;
+  background: var(--card-studio);
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+}
+
+.card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: var(--card-studio);
+}
+
+.card-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(255, 253, 249, 0.82);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 100px;
+  color: var(--forest-soft);
+}
+
+.card-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-icon {
+  width: 22px;
+  height: 22px;
+  fill: transparent;
+  stroke: var(--forest);
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+  overflow: visible;
+  transform-origin: center;
+  transition: fill 0.32s ease, stroke 0.32s ease;
+}
+
+.card-fav.on .heart-icon {
+  fill: #e45a6a;
+  stroke: #e45a6a;
+}
+
+.card-fav.burst .heart-icon {
+  animation: heart-fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes heart-fill {
+  0% {
+    transform: scale(0.86);
+    fill: transparent;
+  }
+  42% {
+    transform: scale(1.22);
+    fill: #e45a6a;
+  }
+  100% {
+    transform: scale(1);
+    fill: #e45a6a;
+  }
+}
+
+.card-body {
+  padding: 16px 6px 20px;
+  background: transparent;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--forest-soft);
+  margin-bottom: 8px;
+}
+
+.rating app-icon {
+  color: #f0c84b;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(62%) saturate(748%) hue-rotate(359deg)
+    brightness(102%) contrast(96%);
+}
+
+.card-body h3 {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.card-body p {
+  font-size: 13px;
+  color: var(--forest-soft);
+  margin-bottom: 14px;
+}
+
+
+.card-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cream) 70%, #fff);
+  border: 1px solid color-mix(in srgb, var(--forest) 8%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn:hover {
+  background: var(--forest);
+}
+
+.add-btn:hover app-icon {
+  filter: brightness(0) invert(1);
+}

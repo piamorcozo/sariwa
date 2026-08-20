@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simpleng Mahal — Sariwa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5F0E6;
+    --cream-deep:#EDE5D4;
+    --forest:#2C3A2B;
+    --forest-soft:#4A5C46;
+    --rose:#B5697A;
+    --rose-soft:#EADCDF;
+    --mustard:#D79A2C;
+    --sage:#8A9A7E;
+    --white:#FFFDF9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--cream);color:var(--forest);font-family:'Work Sans',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  button,select{font-family:inherit;}
+  img,svg{display:block;}
+
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 32px;max-width:1120px;margin:0 auto;}
+  .logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;}
+  .logo em{font-style:italic;color:var(--rose);}
+  .nav-links{display:flex;gap:36px;font-size:15px;font-weight:500;}
+  .nav-icons{display:flex;gap:20px;align-items:center;}
+  .nav-icons button{background:none;border:none;cursor:pointer;color:var(--forest);}
+
+  .breadcrumb{max-width:1120px;margin:0 auto;padding:8px 32px 0;font-size:13px;color:var(--forest-soft);}
+  .breadcrumb a:hover{color:var(--forest);}
+  .breadcrumb span{margin:0 6px;color:#C9D0C4;}
+
+  /* PRODUCT LAYOUT */
+  .product-layout{
+    max-width:1120px;margin:0 auto;padding:28px 32px 90px;
+    display:grid;grid-template-columns:1fr 1fr;gap:56px;
+  }
+
+  /* GALLERY */
+  .gallery-main{
+    aspect-ratio:1/1;background:var(--white);border:1px solid var(--cream-deep);
+    border-radius:22px;display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .gallery-main .sale-tag{
+    position:absolute;top:18px;left:18px;background:var(--rose);color:var(--white);
+    font-size:11.5px;font-weight:600;letter-spacing:.03em;padding:6px 12px;border-radius:100px;
+  }
+  .gallery-thumbs{display:flex;gap:10px;margin-top:14px;}
+  .thumb{
+    width:64px;height:64px;border-radius:12px;background:var(--white);
+    border:1.5px solid var(--cream-deep);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .2s ease;
+  }
+  .thumb.active{border-color:var(--forest);}
+
+  /* INFO */
+  .product-info .eyebrow{
+    font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage);font-weight:600;
+  }
+  .product-info h1{font-size:32px;margin:10px 0 12px;}
+  .rating-row{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--forest-soft);margin-bottom:18px;}
+  .rating-row .stars{display:flex;gap:2px;}
+  .rating-row svg{fill:var(--mustard);}
+  .price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:20px;}
+  .price-row .now{font-family:'Fraunces',serif;font-size:26px;}
+  .price-row .was{font-size:14px;color:#A9AF9F;text-decoration:line-through;}
+  .price-row .save{font-size:12px;background:var(--rose-soft);color:var(--rose);padding:4px 10px;border-radius:100px;font-weight:600;}
+  .desc{font-size:14.5px;color:var(--forest-soft);margin-bottom:24px;max-width:460px;}
+
+  .tag-row{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap;}
+  .tag-pill{
+    font-size:12.5px;padding:6px 14px;border-radius:100px;
+    background:var(--white);border:1px solid var(--cream-deep);color:var(--forest-soft);
+  }
+
+  .option-group{margin-bottom:22px;}
+  .option-group label.group-label{
+    font-size:13px;font-weight:600;display:block;margin-bottom:10px;
+  }
+  .size-row{display:flex;gap:10px;}
+  .size-opt{
+    flex:1;border:1px solid var(--cream-deep);border-radius:14px;padding:14px 12px;
+    text-align:center;cursor:pointer;background:var(--white);
+    transition:border-color .2s ease,background .2s ease;
+  }
+  .size-opt.active{border-color:var(--forest);background:var(--cream);}
+  .size-opt .size-name{font-size:13.5px;font-weight:500;}
+  .size-opt .size-price{font-size:12px;color:var(--forest-soft);margin-top:3px;}
+
+  .qty-add-row{display:flex;gap:12px;align-items:center;margin-bottom:18px;}
+  .qty-control{display:flex;align-items:center;border:1px solid var(--cream-deep);border-radius:100px;overflow:hidden;}
+  .qty-control button{width:40px;height:48px;background:var(--white);border:none;cursor:pointer;font-size:17px;color:var(--forest);}
+  .qty-control button:hover{background:var(--cream-deep);}
+  .qty-control span{width:36px;text-align:center;font-size:14px;font-weight:500;}
+  .btn-primary{
+    flex:1;background:var(--forest);color:var(--white);border:none;
+    height:48px;border-radius:100px;font-weight:500;font-size:14.5px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .2s ease;
+  }
+  .btn-primary:hover{background:var(--rose);}
+  .btn-primary.added{background:var(--sage);}
+
+  .delivery-note{
+    display:flex;align-items:center;gap:10px;font-size:13px;color:var(--forest-soft);
+    background:var(--white);border:1px solid var(--cream-deep);border-radius:14px;padding:13px 16px;margin-bottom:26px;
+  }
+  .delivery-note strong{color:var(--forest);}
+
+  /* ACCORDION */
+  .accordion-item{border-top:1px solid var(--cream-deep);}
+  .accordion-item:last-child{border-bottom:1px solid var(--cream-deep);}
+  .accordion-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 2px;cursor:pointer;font-size:14px;font-weight:500;
+  }
+  .accordion-head svg{transition:transform .25s ease;flex-shrink:0;}
+  .accordion-item.open .accordion-head svg{transform:rotate(45deg);}
+  .accordion-body{
+    max-height:0;overflow:hidden;transition:max-height .3s ease;
+    font-size:13.5px;color:var(--forest-soft);
+  }
+  .accordion-item.open .accordion-body{max-height:200px;}
+  .accordion-body p{padding-bottom:16px;max-width:440px;}
+
+  /* SIMILAR PRODUCTS */
+  .similar{max-width:1120px;margin:0 auto;padding:0 32px 100px;}
+  .similar-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:26px;flex-wrap:wrap;gap:10px;}
+  .similar-head span{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage);font-weight:600;}
+  .similar-head h2{font-size:24px;margin-top:6px;}
+  .similar-nav{display:flex;gap:8px;}
+  .similar-nav button{
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--cream-deep);background:var(--white);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--forest);
+  }
+  .similar-nav button:hover{border-color:var(--forest);}
+
+  .similar-track-wrap{overflow:hidden;}
+  .similar-track{display:flex;gap:22px;transition:transform .35s ease;}
+  .sim-card{
+    flex:0 0 calc((100% - 66px)/4);
+    background:var(--white);border:1px solid var(--cream-deep);border-radius:18px;overflow:hidden;
+    transition:transform .2s ease;
+  }
+  .sim-card:hover{transform:translateY(-3px);}
+  .sim-art{aspect-ratio:1/0.9;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;position:relative;}
+  .sim-tag{position:absolute;top:12px;left:12px;background:var(--white);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;padding:4px 9px;border-radius:100px;color:var(--forest-soft);}
+  .sim-body{padding:15px 16px 18px;}
+  .sim-body .rating{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--forest-soft);margin-bottom:6px;}
+  .sim-body .rating svg{fill:var(--mustard);}
+  .sim-body h3{font-size:15px;font-weight:500;margin-bottom:10px;}
+  .sim-foot{display:flex;justify-content:space-between;align-items:center;}
+  .sim-price{font-family:'Fraunces',serif;font-size:15.5px;}
+  .sim-add{width:32px;height:32px;border-radius:50%;background:var(--cream);border:1px solid var(--cream-deep);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .sim-add:hover{background:var(--forest);color:var(--white);}
+
+  footer{border-top:1px solid var(--cream-deep);padding:48px 32px 36px;}
+  .footer-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+  .footer-inner p{font-size:13px;color:var(--forest-soft);}
+  .footer-links{display:flex;gap:24px;font-size:13px;color:var(--forest-soft);}
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .product-layout{grid-template-columns:1fr;gap:28px;padding:24px 20px 60px;}
+    .sim-card{flex:0 0 calc((100% - 22px)/2);}
+    .similar{padding:0 20px 70px;}
+  }
+  @media (max-width:520px){
+    .sim-card{flex:0 0 100%;}
+    .size-row{flex-direction:column;}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">sari<em>wa</em></div>
+  <div class="nav-links">
+    <a href="#">Shop</a>
+    <a href="#">Occasions</a>
+    <a href="#">Our Story</a>
+  </div>
+  <div class="nav-icons">
+    <button aria-label="Search"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+    <button aria-label="Cart"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L4 3H2"/></svg></button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="#">Shop</a><span>/</span><a href="#">Romance</a><span>/</span>Simpleng Mahal
+</div>
+
+<div class="product-layout">
+
+  <!-- GALLERY -->
+  <div>
+    <div class="gallery-main" id="galleryMain">
+      <span class="sale-tag">Save ₱440</span>
+      <svg width="220" height="220" viewBox="0 0 100 100" id="mainSvg">
+        <circle cx="40" cy="45" r="18" fill="#B5697A"/>
+        <circle cx="62" cy="50" r="18" fill="#C77E8B"/>
+        <circle cx="50" cy="65" r="18" fill="#8F4655"/>
+      </svg>
+    </div>
+    <div class="gallery-thumbs">
+      <div class="thumb active" data-view="0">
+        <svg width="30" height="30" viewBox="0 0 100 100"><circle cx="40" cy="45" r="18" fill="#B5697A"/><circle cx="62" cy="50" r="18" fill="#C77E8B"/><circle cx="50" cy="65" r="18" fill="#8F4655"/></svg>
+      </div>
+      <div class="thumb" data-view="1">
+        <svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="#8F4655"/><circle cx="50" cy="50" r="12" fill="#EADCDF"/></svg>
+      </div>
+      <div class="thumb" data-view="2">
+        <svg width="30" height="30" viewBox="0 0 100 100"><rect x="20" y="60" width="60" height="24" rx="4" fill="#8A9A7E"/><circle cx="40" cy="45" r="16" fill="#B5697A"/><circle cx="60" cy="45" r="16" fill="#C77E8B"/></svg>
+      </div>
+      <div class="thumb" data-view="3">
+        <svg width="30" height="30" viewBox="0 0 100 100"><circle cx="50" cy="50" r="24" fill="none" stroke="#B5697A" stroke-width="3"/><circle cx="50" cy="50" r="10" fill="#D79A2C"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+    <div class="eyebrow">Romance</div>
+    <h1>Simpleng Mahal</h1>
+    <div class="rating-row">
+      <span class="stars">
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+      </span>
+      4.9 · 114 reviews
+    </div>
+    <div class="price-row">
+      <span class="now" id="nowPrice">₱1,450</span>
+      <span class="was" id="wasPrice">₱1,890</span>
+      <span class="save">23% off</span>
+    </div>
+    <p class="desc">A dozen garden roses, no filler, no fuss. Hand-tied the morning it's delivered, with a short note card included at no extra cost.</p>
+    <div class="tag-row">
+      <span class="tag-pill">Roses</span>
+      <span class="tag-pill">Romance</span>
+      <span class="tag-pill">Same-day eligible</span>
+    </div>
+
+    <div class="option-group">
+      <label class="group-label">Size</label>
+      <div class="size-row" id="sizeRow">
+        <div class="size-opt" data-price="990" data-was="1290">
+          <div class="size-name">Petite (6)</div>
+          <div class="size-price">₱990</div>
+        </div>
+        <div class="size-opt active" data-price="1450" data-was="1890">
+          <div class="size-name">Classic (12)</div>
+          <div class="size-price">₱1,450</div>
+        </div>
+        <div class="size-opt" data-price="2350" data-was="2990">
+          <div class="size-name">Grand (24)</div>
+          <div class="size-price">₱2,350</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qty-add-row">
+      <div class="qty-control">
+        <button id="qtyDec">−</button>
+        <span id="qtyVal">1</span>
+        <button id="qtyInc">+</button>
+      </div>
+      <button class="btn-primary" id="addBtn">
+        <span id="addBtnLabel">Add to cart — ₱1,450</span>
+      </button>
+    </div>
+
+    <div class="delivery-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Order within <strong>3h 20m</strong> for delivery today in Metro Manila.
+    </div>
+
+    <div class="accordion" id="accordion">
+      <div class="accordion-item open">
+        <div class="accordion-head">What's included <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="accordion-body"><p>12 fresh-cut garden roses, seasonal foliage, wrapped in kraft paper with a hand-written note card. Vase not included.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-head">Delivery & substitution <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="accordion-body"><p>Same-day delivery in Makati, Taguig, QC, Pasig, Pasay, Mandaluyong, and Marikina. If a bloom is out of season, our florist substitutes with something of equal or greater value.</p></div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-head">Care instructions <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="accordion-body"><p>Trim stems at an angle, change water every 2 days, and keep away from direct sunlight. Lasts 5–7 days with care.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIMILAR PRODUCTS -->
+<div class="similar">
+  <div class="similar-head">
+    <div>
+      <span>You might also like</span>
+      <h2>Similar to Simpleng Mahal</h2>
+    </div>
+    <div class="similar-nav">
+      <button id="simPrev" aria-label="Previous">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button id="simNext" aria-label="Next">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="similar-track-wrap">
+    <div class="similar-track" id="simTrack">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="logo" style="font-size:18px;">sari<em>wa</em></div>
+    <div class="footer-links"><a href="#">Track an order</a><a href="#">Delivery areas</a><a href="#">Contact</a></div>
+    <p>© 2026 Sariwa. Metro Manila.</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Gallery thumbnail swap ----
+  const views = [
+    `<circle cx="40" cy="45" r="18" fill="#B5697A"/><circle cx="62" cy="50" r="18" fill="#C77E8B"/><circle cx="50" cy="65" r="18" fill="#8F4655"/>`,
+    `<circle cx="50" cy="50" r="22" fill="#8F4655"/><circle cx="50" cy="50" r="12" fill="#EADCDF"/>`,
+    `<rect x="20" y="60" width="60" height="24" rx="4" fill="#8A9A7E"/><circle cx="40" cy="45" r="16" fill="#B5697A"/><circle cx="60" cy="45" r="16" fill="#C77E8B"/>`,
+    `<circle cx="50" cy="50" r="24" fill="none" stroke="#B5697A" stroke-width="3"/><circle cx="50" cy="50" r="10" fill="#D79A2C"/>`
+  ];
+  document.querySelectorAll('.thumb').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.thumb').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById('mainSvg').innerHTML = views[t.dataset.view];
+    });
+  });
+
+  // ---- Size selector ----
+  let currentPrice = 1450, currentWas = 1890, qty = 1;
+  document.querySelectorAll('.size-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.size-opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      currentPrice = Number(opt.dataset.price);
+      currentWas = Number(opt.dataset.was);
+      updatePriceUI();
+    });
+  });
+
+  function fmt(n){ return '₱' + n.toLocaleString(); }
+
+  function updatePriceUI(){
+    document.getElementById('nowPrice').textContent = fmt(currentPrice);
+    document.getElementById('wasPrice').textContent = fmt(currentWas);
+    document.getElementById('addBtnLabel').textContent = `Add to cart — ${fmt(currentPrice * qty)}`;
+  }
+
+  // ---- Quantity ----
+  document.getElementById('qtyInc').addEventListener('click', () => { qty++; document.getElementById('qtyVal').textContent = qty; updatePriceUI(); });
+  document.getElementById('qtyDec').addEventListener('click', () => { qty = Math.max(1, qty - 1); document.getElementById('qtyVal').textContent = qty; updatePriceUI(); });
+
+  // ---- Add to cart feedback ----
+  document.getElementById('addBtn').addEventListener('click', function(){
+    const label = document.getElementById('addBtnLabel');
+    const original = label.textContent;
+    this.classList.add('added');
+    label.textContent = 'Added to cart ✓';
+    setTimeout(() => {
+      this.classList.remove('added');
+      updatePriceUI();
+    }, 1400);
+  });
+
+  // ---- Accordion ----
+  document.querySelectorAll('.accordion-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.accordion-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ---- Similar products ----
+  const similarProducts = [
+    {name:"Puting Rosas (24)", tag:"Romance", price:1990, rating:4.9, reviews:56, colors:["#FFFDF9","#8A9A7E","#EADCDF"]},
+    {name:"Unang Tingin", tag:"Romance", price:1750, rating:4.9, reviews:71, colors:["#B5697A","#8A9A7E","#EADCDF"]},
+    {name:"Masayang Kaarawan", tag:"Birthday", price:1590, rating:4.8, reviews:89, colors:["#B5697A","#D79A2C","#EADCDF"]},
+    {name:"Sunny Kalog", tag:"Birthday", price:1190, rating:4.8, reviews:62, colors:["#D79A2C","#EADCDF","#B5697A"]},
+    {name:"Tuwang-tuwa", tag:"Just Because", price:1050, rating:4.7, reviews:33, colors:["#D79A2C","#B5697A","#EADCDF"]},
+    {name:"Bahaghari", tag:"Just Because", price:990, rating:4.6, reviews:47, colors:["#D79A2C","#8A9A7E","#B5697A"]},
+  ];
+
+  const simTrack = document.getElementById('simTrack');
+  simTrack.innerHTML = similarProducts.map(p => `
+    <div class="sim-card">
+      <div class="sim-art">
+        <div class="sim-tag">${p.tag}</div>
+        <svg width="64" height="64" viewBox="0 0 100 100">
+          <circle cx="40" cy="45" r="18" fill="${p.colors[0]}"/>
+          <circle cx="62" cy="50" r="18" fill="${p.colors[1]}"/>
+          <circle cx="50" cy="65" r="18" fill="${p.colors[2]}"/>
+        </svg>
+      </div>
+      <div class="sim-body">
+        <div class="rating">
+          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>
+          ${p.rating} (${p.reviews})
+        </div>
+        <h3>${p.name}</h3>
+        <div class="sim-foot">
+          <span class="sim-price">${fmt(p.price)}</span>
+          <button class="sim-add" aria-label="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  let simIndex = 0;
+  function updateSimTrack(){
+    const cardWidth = simTrack.children[0].getBoundingClientRect().width + 22;
+    const maxIndex = Math.max(0, similarProducts.length - visibleCards());
+    simIndex = Math.min(simIndex, maxIndex);
+    simTrack.style.transform = `translateX(-${simIndex * cardWidth}px)`;
+  }
+  function visibleCards(){
+    const w = window.innerWidth;
+    if (w <= 520) return 1;
+    if (w <= 900) return 2;
+    return 4;
+  }
+  document.getElementById('simNext').addEventListener('click', () => {
+    const maxIndex = Math.max(0, similarProducts.length - visibleCards());
+    simIndex = Math.min(simIndex + 1, maxIndex);
+    updateSimTrack();
+  });
+  document.getElementById('simPrev').addEventListener('click', () => {
+    simIndex = Math.max(simIndex - 1, 0);
+    updateSimTrack();
+  });
+  window.addEventListener('resize', updateSimTrack);
+</script>
+
+</body>
+</html>

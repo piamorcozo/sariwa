@@ -1,0 +1,14 @@
+<div class="column-track" [style.--duration]="duration() + 's'">
+  @for (item of looped(); track $index) {
+    <article class="card">
+        <p class="card-text">“{{ item.text }}”</p>
+        <div class="card-author">
+          <img [src]="item.image" [alt]="item.name" width="40" height="40" />
+          <div>
+            <strong>{{ item.name }}</strong>
+            <span>{{ item.role }}</span>
+          </div>
+        </div>
+      </article>
+  }
+</div>
